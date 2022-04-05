@@ -14,7 +14,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-//get
+//get messages by conversationId
 
 router.get("/:conversationId", async (req, res) => {
   try {
@@ -26,5 +26,18 @@ router.get("/:conversationId", async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+//delete messages by conversation id
+// Fix this API
+router.delete("/:conversationId", async (req, res) => {
+    try {
+      const messages = await Message.findByIdAndDelete({
+        conversationId: req.params.conversationId,
+      });
+      res.status(200).json(messages);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
 module.exports = router;

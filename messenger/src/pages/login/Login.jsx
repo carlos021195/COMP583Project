@@ -28,9 +28,9 @@ export default function Login() {
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">COMP 583</h3>
+          <h3 className="loginLogo">Messenger</h3>
           <span className="loginDesc">
-            COMP 583
+            Messenger
           </span>
         </div>
         <div className="loginRight">

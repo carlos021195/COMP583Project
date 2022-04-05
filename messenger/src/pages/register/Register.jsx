@@ -43,9 +43,9 @@ export default function Register() {
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">COMP 583</h3>
+          <h3 className="loginLogo">Messenger</h3>
           <span className="loginDesc">
-            COMP 583
+            Messenger App
           </span>
         </div>
         <div className="loginRight">
