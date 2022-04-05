@@ -28,7 +28,7 @@ router.get("/:conversationId", async (req, res) => {
 });
 
 //delete messages by conversation id
-// Fix this API
+// Fix this
 router.delete("/:conversationId", async (req, res) => {
     try {
       const messages = await Message.findByIdAndDelete({

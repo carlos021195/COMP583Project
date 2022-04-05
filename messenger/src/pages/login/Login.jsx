@@ -28,10 +28,7 @@ export default function Login() {
     <div className="login">
       <div className="loginWrapper">
         <div className="loginLeft">
-          <h3 className="loginLogo">Messenger</h3>
-          <span className="loginDesc">
-            Messenger
-          </span>
+          <h3 className="loginLogo">Messenger App</h3>
         </div>
         <div className="loginRight">
           <form className="loginBox" onSubmit={handleClick}>

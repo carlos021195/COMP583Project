@@ -5,7 +5,7 @@ const verifyToken = require("../verifyToken").verifyToken;
 
 //update user
 router.put("/:id", verifyToken, async (req, res) => {
-  if (req.body.userId === req.params.id || req.body.isAdmin) {
+  if (req.body.userId === req.params.id) {
     if (req.body.password) {
       try {
         const salt = await bcrypt.genSalt(10);
@@ -29,7 +29,7 @@ router.put("/:id", verifyToken, async (req, res) => {
 
 //delete user
 router.delete("/:id", verifyToken, async (req, res) => {
-  if (req.body.userId === req.params.id || req.body.isAdmin) {
+  if (req.body.userId === req.params.id) {
     try {
       await User.findByIdAndDelete(req.params.id);
       res.status(200).json("Account has been deleted");
