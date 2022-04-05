@@ -6,6 +6,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const multer = require("multer");
 const authRoute = require("./routes/auth");
+const convoRoute = require("./routes/conversations");
+const messageRoute = require("./routes/message");
 const path = require("path");
 const cors = require("cors");
 const port = process.env.PORT || 3000
@@ -28,6 +30,8 @@ app.use(helmet());
 app.use(morgan("common"));
 
 app.use("/api/auth", authRoute);
+app.use("/api/conversations", convoRoute);
+app.use("/api/messages", messageRoute);
 
 app.listen(port, () => {
   console.log("Backend server is running!");
