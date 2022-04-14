@@ -1,9 +1,8 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import MessagesContainer from "../../components/messagesContainer/MessagesContainer";
 
-export default function Messenger() {
+const Home = () => {
   return (
-    <>
-      welcome
-    </>
+    <MessagesContainer/>
   );
 }
+export default Home;

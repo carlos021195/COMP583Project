@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const Conversation = require("../models/Conversations");
+const User = require("../models/User");
+const verifyToken = require("../verifyToken").verifyToken;
 
 //create convo
 router.post("/:userId", async (req, res) => {
@@ -47,5 +49,24 @@ router.delete("/:userId", async (req, res) => {
         res.status(500).json(err);
     }
 })
+
+// Join/Leave a conversation
+router.put("/:id/join", verifyToken, async (req, res) => {
+    try {
+      const user = await User.findById(req.params.id);
+      const conversation = await Conversation.findById(req.body.conversationId);
+      if (!user.conversations.includes(req.body.conversationId)) {
+        await user.updateOne({ $push: { conversations: req.body.conversationId } });
+        await conversation.updateOne({ $push: { members: req.params.id } });
+        res.status(200).json("The conversation has been joined");
+      } else {
+        await user.updateOne({ $pull: { conversations: req.body.conversationId } });
+        await conversation.updateOne({ $pull: { members: req.params.id } });
+        res.status(200).json("The conversation has been left");
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
 module.exports = router;

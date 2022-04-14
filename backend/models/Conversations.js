@@ -12,6 +12,10 @@ const ConversationSchema = new mongoose.Schema(
     },
     creatorId: {
         type: String
+    },
+    isGroup: {
+      type: Boolean,
+      default: true
     }
   },
   { timestamps: true }
