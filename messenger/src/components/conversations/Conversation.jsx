@@ -1,23 +1,21 @@
 import axios from "axios";
+import "./conversation.css";
 import { useEffect, useState } from "react";
 
 const Conversation = ({ conversation, currentUser }) => {
   const [user, setUser] = useState(null);
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
 
-  useEffect(() => {
-    const friendId = conversation.members.find((m) => m !== currentUser._id);
-
-    const getUser = async () => {
-      try {
-        const res = await axios("http://localhost:8800"+"/api/users?userId=" + friendId);
-        setUser(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getUser();
-  }, [currentUser, conversation]);
+  // useEffect(() => {
+  //   const getConvo = async () => {
+  //     try {
+  //       const res = await axios("http://localhost:8800"+"/api/conversation" + friendId);
+  //       setUser(res.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   getUser();
+  // }, [currentUser, conversation]);
 
   return (
     <div className="conversation">
@@ -29,7 +27,7 @@ const Conversation = ({ conversation, currentUser }) => {
         }
         alt=""
       />
-      <span className="conversationName">{user?.username}</span>
+      <span className="conversationName">{conversation.title}</span>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import "./messageContainer.css";
 import Message from "../message/Message";
 import Conversation from "../conversations/Conversation";
+import Search from "../search/Search";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { io } from "socket.io-client";
@@ -11,7 +13,6 @@ const MessagesContainer = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [onlineUsers, setOnlineUsers] = useState([]);
   const socket = useRef();
   const { user } = useContext(AuthContext);
   const scrollRef = useRef();
@@ -31,18 +32,9 @@ const MessagesContainer = () => {
 
   useEffect(() => {
     arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
+      currentChat._id === arrivalMessage.conversationId &&
       setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, currentChat]);
-
-  useEffect(() => {
-    // socket.current.emit("addUser", user._id);
-    // socket.current.on("getUsers", (users) => {
-    // //   setOnlineUsers(
-    // //     user.followings.filter((f) => users.some((u) => u.userId === f))
-    // //   );
-    // });
-  }, [user]);
 
   useEffect(() => {
     const getConversations = async () => {
@@ -77,15 +69,10 @@ const MessagesContainer = () => {
       conversationId: currentChat._id,
     };
 
-    const receiverId = currentChat.members.filter(
-      (member) => member !== user._id
-    );
-    console.log(receiverId);
-
     socket.current.emit("sendMessage", {
       senderId: user._id,
       receiverId: 
-      receiverId,
+      currentChat._id,
       text: newMessage,
     });
 
@@ -108,7 +95,7 @@ const MessagesContainer = () => {
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
-            <input placeholder="Search for friends" className="chatMenuInput" />
+            <Search />
             {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
                 <Conversation conversation={c} currentUser={user} />

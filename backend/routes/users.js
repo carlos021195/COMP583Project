@@ -57,9 +57,10 @@ router.get("/", verifyToken ,async (req, res) => {
 });
 
 // search for users
-router.get("/:username/search", verifyToken, async (req, res) => {
+// router.get("/searchuser/:user", verifyToken, async (req, res) => {
+  router.get("/searchuser/:username", async (req, res) => {
   try {
-    const users = await User.find({username: { $regex: '.*' + req.params.username + '.*'} }).limit(5);
+    const users = await User.find({username: { $regex: '.*' + req.params.username + '.*', $options: 'i'} }).limit(5);
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json(err);

@@ -19,7 +19,7 @@ router.post("/:userId", async (req, res) => {
     }
 });
 
-//get conv of a user
+//get convos of a user
 
 router.get("/:userId", async (req, res) => {
     try {
@@ -67,6 +67,15 @@ router.put("/:id/join", verifyToken, async (req, res) => {
     } catch (err) {
       res.status(500).json(err);
     }
-  });
+});
+
+router.get("/searchconversations/:conversation", async (req, res) => {
+    try {
+        const convos = await Conversation.find({ title: { $regex: '.*' + req.params.conversation + '.*', '$options' : 'i'} }).limit(10);
+        res.status(200).json(convos);
+      } catch (err) {
+        res.status(500).json(err);
+      }
+});
 
 module.exports = router;
