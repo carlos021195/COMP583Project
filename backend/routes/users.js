@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const verifyToken = require("../verifyToken").verifyToken;
 
 //update user
-router.put("/:id", verifyToken, async (req, res) => {
+router.put("/:id", async (req, res) => {
   if (req.body.userId === req.params.id) {
     if (req.body.password) {
       try {
@@ -28,7 +28,7 @@ router.put("/:id", verifyToken, async (req, res) => {
 });
 
 //delete user
-router.delete("/:id", verifyToken, async (req, res) => {
+router.delete("/:id", async (req, res) => {
   if (req.body.userId === req.params.id) {
     try {
       await User.findByIdAndDelete(req.params.id);

@@ -6,7 +6,7 @@ const verifyToken = require("../verifyToken").verifyToken;
 //create convo
 router.post("/:userId", async (req, res) => {
     const newConversation = new Conversation({
-        members: [req.body.senderId, req.body.receiverId],
+        members: req.body.members,
         title: req.body.title,
         creatorId: req.params.userId
     });
@@ -51,18 +51,18 @@ router.delete("/:userId", async (req, res) => {
 })
 
 // Join/Leave a conversation
-router.put("/:id/join", verifyToken, async (req, res) => {
+router.put("/:id/join", async (req, res) => {
     try {
       const user = await User.findById(req.params.id);
       const conversation = await Conversation.findById(req.body.conversationId);
       if (!user.conversations.includes(req.body.conversationId)) {
         await user.updateOne({ $push: { conversations: req.body.conversationId } });
         await conversation.updateOne({ $push: { members: req.params.id } });
-        res.status(200).json("The conversation has been joined");
+        res.status(201).json(conversation);
       } else {
         await user.updateOne({ $pull: { conversations: req.body.conversationId } });
         await conversation.updateOne({ $pull: { members: req.params.id } });
-        res.status(200).json("The conversation has been left");
+        res.status(200).json(conversation);
       }
     } catch (err) {
       res.status(500).json(err);

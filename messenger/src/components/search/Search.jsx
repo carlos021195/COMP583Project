@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import ConvoResults from "./ConvoResults";
 import UserResults from "./UserResults";
 import axios from "axios";
+import CreateGroupComponent from "./CreateGroupComponent"
 
 
-const Search = () => {
+const Search = ({conversations, setConversations, setCurrentChat, handleJoinConvo, handleCreateUserConvo, handleCreateGroupConvo}) => {
     const [userResult, setUserResult] = useState([]);
     const [convoResult, setConvoResult] = useState([]);
+    const [input, setInput] = useState("");
 
     const clear = () => {
         setUserResult([]);
@@ -14,7 +16,9 @@ const Search = () => {
     }
 
     const handleChange = async (e) => {
-        let input = e.target.value;
+      e.preventDefault()
+        setInput(e.target.value);
+        if(input==0) clear();
         const text = input.replace(/[^a-z0-9 _]/gi, '');
         if (text.length>0){
           const userRes = await axios.get(
@@ -27,7 +31,8 @@ const Search = () => {
           setConvoResult(convoRes.data);
         }
         else {
-            clear();
+          setUserResult([]);
+          setConvoResult([]);
         }
         //Need to render results or no user found
     }
@@ -39,8 +44,9 @@ const Search = () => {
             className="chatMenuInput"
         />
         <div className="searchResultsComponent" onBlur={clear}>
-            <UserResults searchResult={userResult}/>
-            <ConvoResults searchResult={convoResult}/>
+            <UserResults searchResult={userResult} conversations={conversations} setConversations={setConversations} setCurrentChat={setCurrentChat} handleCreateUserConvo={()=>handleCreateUserConvo()} />
+            <ConvoResults searchResult={convoResult} conversations={conversations} setConversations={setConversations} setCurrentChat={setCurrentChat} handleJoinConvo={()=>handleJoinConvo()} />
+            <CreateGroupComponent conversations={conversations} setConversations={setConversations} setCurrentChat={setCurrentChat} handleCreateGroupConvo={()=>handleCreateGroupConvo()} title={input} />
         </div>
     </>
   );

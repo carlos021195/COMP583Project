@@ -5,18 +5,6 @@ import { useEffect, useState } from "react";
 const Conversation = ({ conversation, currentUser }) => {
   const [user, setUser] = useState(null);
 
-  // useEffect(() => {
-  //   const getConvo = async () => {
-  //     try {
-  //       const res = await axios("http://localhost:8800"+"/api/conversation" + friendId);
-  //       setUser(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getUser();
-  // }, [currentUser, conversation]);
-
   return (
     <div className="conversation">
       <img
