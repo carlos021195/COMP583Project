@@ -114,34 +114,16 @@ const handleJoinConvo = async(convoId) => {
   }
 }
 
-const handleCreateUserConvo = async(resultId, resultUser) => {
-  const convo = {
-      members: [user._id, resultId],
-      title: user.username+", "+resultUser,
-      creatorId: user._id,
-      isGroup: false
-  };
-  try {
-      const res = await axios.post("http://localhost:8800/api/conversations/"+user._id, convo);
-      //set conversation array here and make conversation selected conversation
-      setConversations([...conversations,res.data]);
-      setCurrentChat(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-}
-
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
     <>
-      {/* <Topbar /> */}
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
-            <Search conversations={conversations} setConversations={setConversations} setCurrentChat={setCurrentChat} handleCreateUserConvo={()=>handleCreateUserConvo()} handleJoinConvo={()=>handleJoinConvo()} />
+            <Search conversations={conversations} setConversations={setConversations} setCurrentChat={setCurrentChat} handleJoinConvo={()=>handleJoinConvo()} />
             {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
                 <Conversation conversation={c} currentUser={user} />
